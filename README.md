@@ -7,6 +7,7 @@ The key take away for me while writing this entry was efficient data structure a
 # Tesing the Approach
 While writing the code, I had two to three hypothesis about the data and the descriptions the chanllenge provided. I shared one of such as a comment in the code regarding `product_id` mapping to `department_id`. I found the supplied test scipt sufficient and adequate for covering test cases for the challenge. 
 Here is what my final directory stucture looked like:
+
     ├── README.md 
     ├── run.sh
     ├── src
