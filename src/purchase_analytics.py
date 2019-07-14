@@ -15,38 +15,38 @@ def purchase_analytics(fileA, fileB, fileC):
     with open(fileB, 'r') as fhb:
         raw = csv.reader(fhb)
         next(raw, None)
-        rawProd = {}
+        rawProducts = {}
         for line in raw:
-            temp = rawProd.get(line[0], [])
+            temp = rawProducts.get(line[0], [])
             temp.append(line[3])
-            rawProd[line[0]] = temp
+            rawProducts[line[0]] = temp
     fhb.close()
     # Sanity check to ensure no single product is associated with multiple departments
     # This should give an empty list 
     #prodMultipleDept = [k for k,v in deptProd.items() if len(v) > 1] # this list was empty
 
-    # Merge the two dict objects
-    merged = { key: (rawOrders[key], rawProd[key]) for key in rawOrders}
+    # Merge the two dict objects base on common keys - product_ids
+    merged = { key: (rawOrders[key], rawProducts[key]) for key in rawOrders}
     
     #Build a dict object with Department_id as key 
-    aggDept = {}
+    aggDept = {} 
     for key, val in merged.items():
-        dept = val[1][0]
-        numProds = len(val[0])
-        numFirst = val[0].count('0')
-        res = numProds, numFirst
+        dept = val[1][0] # pull out the department_id
+        numOrdered = len(val[0]) # number of times this product was ordered by the department
+        numFirst = val[0].count('0') # number of times the products was ordered for the first time
+        res = numOrdered, numFirst
         temp = aggDept.get(dept, [])
         temp.append(res)
         aggDept[dept] = temp
 
-    # Final aggregation
+    # Final aggregation - using department_id as key, aggregated the total numOrdered and firsts
     results = []
     for k, v in aggDept.items():
         deptID = k
-        orderlst = [row[0] for row in v]
-        num_orders = sum(orderlst)
-        firstlst = [row[1] for row in v]
-        firsts = sum(firstlst)
+        numOrdered_lst = [row[0] for row in v]
+        num_orders = sum(numOrdered_lst)
+        firsts_lst = [row[1] for row in v]
+        firsts = sum(firsts_lst)
         ratios = firsts / num_orders
         resOut = deptID, num_orders, firsts, ratios
         results.append(resOut)
@@ -65,5 +65,4 @@ def purchase_analytics(fileA, fileB, fileC):
     outFile.close()
 
 if __name__ == "__main__":
-
     purchase_analytics(sys.argv[1], sys.argv[2], sys.argv[3])
