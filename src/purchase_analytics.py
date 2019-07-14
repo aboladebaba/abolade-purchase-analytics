@@ -1,7 +1,22 @@
 import csv, sys
 
 def purchase_analytics(fileA, fileB, fileC):
+    """
+    Parses two input files and writes report to an output file.
 
+    Parameters
+    ----------
+    fileA: string (required)
+        The name of the first file (e.g. order_products.csv)
+    fileB: string (required)
+        The second file to parse (e.g. products.csv)
+    fileC: string (required)
+        The output file (e.g. report.csv)
+    
+    Output
+    ------
+    Generate report.csv file.
+    """
     with open(fileA, 'r') as fha:
         raw = csv.reader(fha)
         next(raw, None)
