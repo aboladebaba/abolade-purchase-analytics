@@ -47,7 +47,7 @@ def purchase_analytics(fileA, fileB, fileC):
         num_orders = sum(numOrdered_lst)
         firsts_lst = [row[1] for row in v]
         firsts = sum(firsts_lst)
-        ratios = firsts / num_orders
+        ratios = firsts / float(num_orders)
         resOut = deptID, num_orders, firsts, ratios
         results.append(resOut)
 
